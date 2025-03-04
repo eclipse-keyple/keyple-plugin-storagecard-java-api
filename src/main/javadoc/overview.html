@@ -1,0 +1,25 @@
+<html>
+<body>
+<p>This document provides the API specification for the development of <b>Keyple Storage Card APDU interpreters</b>.</p>
+
+<p>This API standardizes communication with storage-type smart cards, providing abstraction layers for APDU processing
+    and memory-based operations.</p>
+
+<p>The purpose of this API is to provide an APDU interpreter factory designed to be supplied to plugins capable of
+    handling storage-type smart card processing functionalities. It enables the creation of specific APDU interpreter
+    instances tailored to process APDU commands and manage interactions with storage-type smart cards.</p>
+
+<p>The internal package contains:</p>
+<ul>
+    <li>APIs that must be implemented by the plugins to facilitate storage card communication within the Keyple
+        ecosystem.
+    </li>
+    <li>SPIs that must be implemented by the APDU interpretation library to translate high-level commands into
+        specific storage card operations.
+    </li>
+</ul>
+
+<p>For further details about Keyple, please refer to the official documentation at
+    <a href="https://keyple.org">Keyple website</a>.</p>
+</body>
+</html>

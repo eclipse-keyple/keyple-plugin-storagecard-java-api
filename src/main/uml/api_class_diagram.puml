@@ -1,0 +1,89 @@
+@startuml
+title
+    Keyple - keyple-plugin-storage-card-java-api - 1.0.+ (2025-02-21)
+end title
+
+' == THEME ==
+
+'Couleurs issues de : https://htmlcolorcodes.com/fr/tableau-de-couleur/tableau-de-couleur-design-plat/
+!define C_GREY1 F8F9F9
+!define C_GREY2 F2F3F4
+!define C_GREY3 E5E7E9
+!define C_GREY4 D7DBDD
+!define C_GREY5 CACFD2
+!define C_GREY6 BDC3C7
+!define C_LINK 3498DB
+!define C_USE 27AE60
+
+' -- Styles that don't work with new version of plantuml --
+skinparam stereotypeABorderColor #A9DCDF
+skinparam stereotypeIBorderColor #B4A7E5
+skinparam stereotypeCBorderColor #ADD1B2
+skinparam stereotypeEBorderColor #EB93DF
+' -- END --
+
+skinparam ClassBorderThickness 2
+skinparam ArrowThickness 2
+
+' Yellow
+skinparam ClassBackgroundColor #FEFECE
+skinparam ClassBorderColor #D4AC0D
+' Red
+skinparam ClassBackgroundColor<<red>> #FDEDEC
+skinparam ClassBorderColor<<red>> #E74C3C
+hide <<red>> stereotype
+' Purple
+skinparam ClassBackgroundColor<<purple>> #F4ECF7
+skinparam ClassBorderColor<<purple>> #8E44AD
+hide <<purple>> stereotype
+' blue
+skinparam ClassBackgroundColor<<blue>> #EBF5FB
+skinparam ClassBorderColor<<blue>> #3498DB
+hide <<blue>> stereotype
+' Green
+skinparam ClassBackgroundColor<<green>> #E9F7EF
+skinparam ClassBorderColor<<green>> #27AE60
+hide <<green>> stereotype
+' Grey
+skinparam ClassBackgroundColor<<grey>> #EAECEE
+skinparam ClassBorderColor<<grey>> #2C3E50
+hide <<grey>> stereotype
+
+' == CONTENT ==
+
+package "org.eclipse.keyple.core.plugin.storagecard" as api #C_GREY1 {
+    +class "**final** PluginStorageCardApiProperties" as ApiProperties <<green>> {
+        +{static} **final** String VERSION
+    }
+    +interface ApduInterpreterFactory <<red>> {
+    }
+    package "internal" as internal #C_GREY2 {
+      +interface CommandProcessorApi {
+          +byte[] transmitIsoApdu(byte[] apdu)
+
+          +byte[] getUID()
+          +byte[] readBlock(int blockNumber, int length)
+          +void writeBlock(int blockNumber, byte[] data)
+      }
+      package spi #C_GREY3 {
+        +interface ApduInterpreterFactorySpi <<red>> extends api.ApduInterpreterFactory {
+          +ApduInterpreterSpi createApduInterpreter()
+        }
+        +interface "ApduInterpreterSpi" as ApduInterpreterSpi <<red>> {
+            +void setCommandProcessor(CommandProcessorApi CommandProcessorApi)
+
+            +byte[] processApdu(byte[] apdu)
+        }
+      }
+    }
+}
+
+' Associations
+ApduInterpreterFactorySpi --> ApduInterpreterSpi : create >
+ApduInterpreterSpi --> CommandProcessorApi : use >
+
+' == LAYOUT ==
+
+' == STYLE ==
+
+@enduml
