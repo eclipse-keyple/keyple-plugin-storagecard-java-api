@@ -1,7 +1,7 @@
 #!groovy
 pipeline {
   environment {
-    PROJECT_NAME = "keyple-plugin-storage-card-java-api"
+    PROJECT_NAME = "keyple-plugin-storagecard-java-api"
     PROJECT_BOT_NAME = "Eclipse Keyple Bot"
   }
   agent { kubernetes { yaml javaBuilder('2.0') } }

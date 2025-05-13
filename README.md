@@ -1,9 +1,9 @@
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storage-card-java-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storage-card-java-api)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storage-card-java-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storage-card-java-api)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storage-card-java-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storage-card-java-api)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storage-card-java-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storage-card-java-api)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storage-card-java-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storage-card-java-api)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storage-card-java-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storage-card-java-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storagecard-java-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storagecard-java-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storagecard-java-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storagecard-java-api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storagecard-java-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storagecard-java-api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storagecard-java-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storagecard-java-api)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storagecard-java-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storagecard-java-api)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=eclipse_keyple-plugin-storagecard-java-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=eclipse_keyple-plugin-storagecard-java-api)
 
 # Keyple Plugin Storage Card API
 
@@ -19,7 +19,7 @@ on the Keyple website [keyple.org](https://keyple.org).
 
 ## API documentation
 
-API documentation & class diagram is available online: [docs.keyple.org/keyple-plugin-storage-card-java-api](https://docs.keyple.org/keyple-plugin-storage-card-java-api)
+API documentation & class diagram is available online: [docs.keyple.org/keyple-plugin-storagecard-java-api](https://docs.keyple.org/keyple-plugin-storagecard-java-api)
 
 ## About the source code
 

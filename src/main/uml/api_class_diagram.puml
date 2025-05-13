@@ -1,6 +1,6 @@
 @startuml
 title
-    Keyple - keyple-plugin-storage-card-java-api - 1.0.+ (2025-02-21)
+    Keyple - keyple-plugin-storagecard-java-api - 1.0.+ (2025-02-21)
 end title
 
 ' == THEME ==

@@ -1,1 +1,1 @@
-rootProject.name = "keyple-plugin-storage-card-java-api"
+rootProject.name = "keyple-plugin-storagecard-java-api"
