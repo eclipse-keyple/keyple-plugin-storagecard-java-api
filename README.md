@@ -9,8 +9,9 @@
 
 ## Overview
 
-The **Keyple Plugin Storage Card API** is dedicated to the development of specific Keyple plugins. It normalizes the
-interactions between a Keyple plugin and the main Keyple service.
+The **Keyple Plugin Storage Card API** is dedicated to the development of specific Keyple plugins able to handle Storage 
+Cards. It normalizes the interactions between a Keyple plugin and an APDU interpreter implementation dedicated to 
+Storage Cards processing.
 
 ## Documentation & Contribution Guide
 

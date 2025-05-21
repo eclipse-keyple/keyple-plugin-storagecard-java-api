@@ -9,14 +9,13 @@
  *
  * SPDX-License-Identifier: MIT
  ************************************************************************************** */
-package org.eclipse.keyple.core.plugin;
+package org.eclipse.keyple.core.plugin.storagecard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
-import org.eclipse.keyple.core.plugin.storagecard.PluginStorageCardApiProperties;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
