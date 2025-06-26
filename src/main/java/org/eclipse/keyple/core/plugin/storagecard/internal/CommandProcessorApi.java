@@ -45,7 +45,7 @@ public interface CommandProcessorApi {
   byte[] getUID() throws Exception;
 
   /**
-   * Reads data starting from a specified block number.
+   * Reads data starting from a specified block address.
    *
    * <p>This method handles reading memory blocks according to the card's memory page structure. The
    * requested length should be a multiple of the card's page size and must not exceed the maximum
@@ -57,17 +57,17 @@ public interface CommandProcessorApi {
    * <p>If the requested {@code length} is shorter than the actual exchange size with the card, the
    * response will be truncated accordingly.
    *
-   * @param blockNumber The number of the first block to be read.
-   * @param length The number of bytes to read, should be a multiple of the card's page size and
+   * @param blockAddress The address of the first block to be read.
+   * @param length The address of bytes to read, should be a multiple of the card's page size and
    *     must not exceed the maximum readable size for the specific card type.
    * @return A byte array containing the block data.
-   * @throws IllegalArgumentException if {@code blockNumber} is out of range or {@code length} is
+   * @throws IllegalArgumentException if {@code blockAddress} is out of range or {@code length} is
    *     negative, not compatible with the card's page structure, or exceeds the maximum readable
    *     size.
    * @throws Exception if the read operation fails or communication error occurs
    * @since 1.0.0
    */
-  byte[] readBlock(int blockNumber, int length) throws Exception;
+  byte[] readBlock(int blockAddress, int length) throws Exception;
 
   /**
    * Writes data to a specified memory block on the card.
@@ -75,13 +75,13 @@ public interface CommandProcessorApi {
    * <p>This method handles writing memory blocks according to the card's memory page structure. The
    * data length must exactly match the exchange size for the specific card type.
    *
-   * @param blockNumber The number of the first block to be written.
+   * @param blockAddress The address of the first block to be written.
    * @param data The byte array containing the data to write. The length must match exactly the
    *     card's page size or exchange size.
-   * @throws IllegalArgumentException if {@code blockNumber} is out of range or if {@code data}
+   * @throws IllegalArgumentException if {@code blockAddress} is out of range or if {@code data}
    *     length does not match the required exchange size for the card type.
    * @throws Exception if the write operation fails or communication error occurs
    * @since 1.0.0
    */
-  void writeBlock(int blockNumber, byte[] data) throws Exception;
+  void writeBlock(int blockAddress, byte[] data) throws Exception;
 }
