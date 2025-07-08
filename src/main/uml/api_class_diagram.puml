@@ -62,8 +62,8 @@ package "org.eclipse.keyple.core.plugin.storagecard" as api #C_GREY1 {
           +byte[] transmitIsoApdu(byte[] apdu)
 
           +byte[] getUID()
-          +byte[] readBlock(int blockNumber, int length)
-          +void writeBlock(int blockNumber, byte[] data)
+          +byte[] readBlock(int blockAddress, int length)
+          +void writeBlock(int blockAddress, byte[] data)
       }
       package spi #C_GREY3 {
         +interface ApduInterpreterFactorySpi <<red>> extends api.ApduInterpreterFactory {
