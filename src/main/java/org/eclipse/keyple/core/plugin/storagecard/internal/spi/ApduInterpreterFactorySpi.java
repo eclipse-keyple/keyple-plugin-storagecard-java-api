@@ -20,6 +20,7 @@ import org.eclipse.keyple.core.plugin.storagecard.ApduInterpreterFactory;
  *
  * @since 1.0.0
  */
+@FunctionalInterface
 public interface ApduInterpreterFactorySpi extends ApduInterpreterFactory {
 
   /**
