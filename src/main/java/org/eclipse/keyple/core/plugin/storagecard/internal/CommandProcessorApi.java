@@ -84,4 +84,87 @@ public interface CommandProcessorApi {
    * @since 1.0.0
    */
   void writeBlock(int blockAddress, byte[] data) throws Exception;
+
+  /**
+   * Loads a card-specific authentication key into the reader's memory.
+   *
+   * <p>This method stores a card key in either volatile (RAM) or non-volatile (EEPROM) memory of
+   * the card reader. The key can be subsequently used by the {@link #generalAuthenticate(int, int,
+   * int)} method to authenticate to the card. This command can be used for all kinds of contactless
+   * cards.
+   *
+   * <p>Volatile memory provides temporary storage that is cleared when the reader loses power,
+   * while non-volatile memory persists across power cycles. The availability of non-volatile memory
+   * depends on the specific reader hardware.
+   *
+   * <p>The key structure and length depend on the card type. For example:
+   *
+   * <ul>
+   *   <li>Mifare cards: 6-byte keys (Type A or Type B)
+   *   <li>Other contactless cards: card-specific key formats
+   * </ul>
+   *
+   * <p>The key number parameter identifies the storage location in the reader's memory. The valid
+   * range and meaning of key numbers depend on the reader implementation and whether volatile or
+   * non-volatile memory is used. Consult the reader documentation for specific key number
+   * assignments.
+   *
+   * <p>Note that keys stored in memory cannot be read back for security reasons. Once loaded, they
+   * can only be used for authentication operations.
+   *
+   * @param isVolatileMemory {@code true} to store the key in volatile memory (RAM), {@code false}
+   *     to store in non-volatile memory (EEPROM).
+   * @param keyNumber The key index identifying the storage location. Valid ranges depend on the
+   *     reader implementation and memory type.
+   * @param key A byte array containing the card-specific key value. Must not be null. The required
+   *     length depends on the card type and authentication algorithm.
+   * @throws IllegalArgumentException if {@code key} is null, if the key length is not valid for the
+   *     card type, or if {@code keyNumber} is not in the valid range for the reader and memory
+   *     type.
+   * @throws Exception if the load operation fails, if the specified memory type is not available on
+   *     the reader hardware, or if a communication error occurs.
+   * @see #generalAuthenticate(int, int, int)
+   * @since 1.1.0
+   */
+  void loadKey(boolean isVolatileMemory, int keyNumber, byte[] key) throws Exception;
+
+  /**
+   * Performs authentication to a contactless card using a previously loaded key.
+   *
+   * <p>This method authenticates to a specific memory location on the card using a key that was
+   * previously loaded into the reader's memory via the {@link #loadKey(boolean, int, byte[])}
+   * method. Successful authentication is typically required before performing read or write
+   * operations on protected memory areas.
+   *
+   * <p>The authentication process establishes a secure session between the reader and the card. The
+   * block address represents the block number or starting byte number of the card to be
+   * authenticated, depending on the card type.
+   *
+   * <p>The key type parameter is card-specific and indicates which type of key to use for
+   * authentication. Examples:
+   *
+   * <ul>
+   *   <li>Mifare cards: 0x60 (KEY_A) or 0x61 (KEY_B)
+   *   <li>Other contactless cards: card-specific key type values
+   * </ul>
+   *
+   * <p>The key number parameter references a key previously loaded via {@link #loadKey(boolean,
+   * int, byte[])} and identifies which stored key to use for this authentication operation.
+   *
+   * @param blockAddress The block number or starting byte number on the card where authentication
+   *     is to be performed. Valid range depends on the card type and memory structure.
+   * @param keyType The type of key to use for authentication. The valid values are card-specific
+   *     (e.g., 0x60 or 0x61 for Mifare cards).
+   * @param keyNumber The index of the previously loaded key to use for authentication. Must
+   *     reference a key that was loaded via {@link #loadKey(boolean, int, byte[])}.
+   * @throws IllegalArgumentException if {@code blockAddress} is out of valid range for the card
+   *     type, if {@code keyType} is not supported by the card, or if {@code keyNumber} does not
+   *     reference a valid loaded key.
+   * @throws Exception if the authentication fails (incorrect key or access denied), if the
+   *     referenced key was not previously loaded, if the card does not support authentication, or
+   *     if a communication error occurs.
+   * @see #loadKey(boolean, int, byte[])
+   * @since 1.1.0
+   */
+  void generalAuthenticate(int blockAddress, int keyType, int keyNumber) throws Exception;
 }
