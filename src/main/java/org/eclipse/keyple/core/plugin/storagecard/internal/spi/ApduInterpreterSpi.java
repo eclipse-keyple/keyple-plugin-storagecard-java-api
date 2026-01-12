@@ -26,6 +26,27 @@ import org.eclipse.keyple.core.plugin.storagecard.internal.CommandProcessorApi;
  * the APDU into specific read/write operations using {@link CommandProcessorApi#getUID()}, {@link
  * CommandProcessorApi#readBlock(int, int)} and {@link CommandProcessorApi#writeBlock(int, byte[])}.
  *
+ * <h3>Status Words</h3>
+ *
+ * <p>While this method declares {@code throws Exception} for interface compatibility,
+ * implementations are <strong>recommended</strong> to convert all errors to ISO 7816-4 compliant
+ * status words for APDU protocol conformity:
+ *
+ * <table border="1">
+ *   <tr><th>Status Word</th><th>Code</th><th>Usage</th></tr>
+ *   <tr><td>Success</td><td>0x9000</td><td>Successful execution</td></tr>
+ *   <tr><td>Wrong length</td><td>0x6700</td><td>Invalid data length</td></tr>
+ *   <tr><td>Incorrect P1-P2</td><td>0x6A86</td><td>Invalid parameters</td></tr>
+ *   <tr><td>Conditions not satisfied</td><td>0x6985</td><td>Preconditions not met</td></tr>
+ *   <tr><td>Authentication failed</td><td>0x6300</td><td>Wrong authentication key</td></tr>
+ *   <tr><td>Technical problem</td><td>0x6581</td><td>Hardware/communication error</td></tr>
+ *   <tr><td>INS not supported</td><td>0x6D00</td><td>Unknown instruction</td></tr>
+ * </table>
+ *
+ * <p>Implementations that convert exceptions to status words should log the full exception details
+ * (including stack traces) for diagnostic purposes while returning appropriate status words to the
+ * client.
+ *
  * @since 1.0.0
  */
 public interface ApduInterpreterSpi {

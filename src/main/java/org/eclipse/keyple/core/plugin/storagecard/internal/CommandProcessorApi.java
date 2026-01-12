@@ -16,6 +16,20 @@ package org.eclipse.keyple.core.plugin.storagecard.internal;
  *
  * <p>To be implemented by the plugin.
  *
+ * <h3>Exception Handling</h3>
+ *
+ * <p>All methods may throw exceptions to indicate error conditions. Implementations should
+ * distinguish between:
+ *
+ * <ul>
+ *   <li>{@link IllegalArgumentException} - For invalid parameters that can be validated before
+ *       hardware access
+ *   <li>{@link Exception} - For technical errors during hardware operations (communication
+ *       failures, authentication failures, etc.)
+ * </ul>
+ *
+ * <p>The exception message should provide clear diagnostic information about the failure cause.
+ *
  * @since 1.0.0
  */
 public interface CommandProcessorApi {
