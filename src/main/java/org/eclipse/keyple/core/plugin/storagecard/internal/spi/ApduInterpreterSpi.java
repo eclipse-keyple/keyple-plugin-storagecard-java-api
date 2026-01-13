@@ -38,6 +38,8 @@ import org.eclipse.keyple.core.plugin.storagecard.internal.CommandProcessorApi;
  *   <tr><td>Wrong length</td><td>0x6700</td><td>Invalid data length</td></tr>
  *   <tr><td>Incorrect P1-P2</td><td>0x6A86</td><td>Invalid parameters</td></tr>
  *   <tr><td>Conditions not satisfied</td><td>0x6985</td><td>Preconditions not met</td></tr>
+ *   <tr><td>Key type not known</td><td>0x6986</td><td>Invalid key type (PC/SC)</td></tr>
+ *   <tr><td>Key number not valid</td><td>0x6988</td><td>Invalid key number (PC/SC)</td></tr>
  *   <tr><td>Authentication failed</td><td>0x6300</td><td>Wrong authentication key</td></tr>
  *   <tr><td>Technical problem</td><td>0x6581</td><td>Hardware/communication error</td></tr>
  *   <tr><td>INS not supported</td><td>0x6D00</td><td>Unknown instruction</td></tr>

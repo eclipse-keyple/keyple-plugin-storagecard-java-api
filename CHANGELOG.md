@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   cards using previously loaded keys.
 ### Changed
 - Enhanced JavaDoc with comprehensive error handling information
-- Added status word reference table following ISO 7816-4 standard
+- Added status word reference table following ISO 7816-4 and PC/SC standards
 
 ## [1.0.0] - 2025-07-08
 
