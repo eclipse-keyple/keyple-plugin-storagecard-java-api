@@ -13,11 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   memory (volatile or non-volatile).
 - Added `generalAuthenticate` method to `CommandProcessorApi` interface for performing authentication to contactless
   cards using previously loaded keys.
-
 ### Changed
 - Enhanced JavaDoc with comprehensive error handling information
 - Added status word reference table following ISO 7816-4 standard
-
 
 ## [1.0.0] - 2025-07-08
 
