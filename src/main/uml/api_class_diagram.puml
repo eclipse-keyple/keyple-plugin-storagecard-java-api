@@ -77,9 +77,6 @@ package "org.eclipse.keyple.core.plugin.storagecard" as api #C_GREY1 {
 
             +byte[] processApdu(byte[] apdu)
         }
-        +interface KeyProviderSpi <<purple>> {
-            +byte[] getKey(int keyIndex)
-        }
       }
     }
 }

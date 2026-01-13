@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Documentation of recommended status words for ApduInterpreterSpi implementations
+- Exception handling guidelines for CommandProcessorApi implementations
 - Added `loadKey` method to `CommandProcessorApi` interface for loading card-specific authentication keys into reader
   memory (volatile or non-volatile).
 - Added `generalAuthenticate` method to `CommandProcessorApi` interface for performing authentication to contactless
   cards using previously loaded keys.
-- Added `KeyProviderSpi` SPI interface for dynamic key retrieval from secure external storage (e.g., HSM, KeyStore, secure
-  cloud), enabling the "External Vault" security pattern.
+
+### Changed
+- Enhanced JavaDoc with comprehensive error handling information
+- Added status word reference table following ISO 7816-4 standard
+
 
 ## [1.0.0] - 2025-07-08
 
