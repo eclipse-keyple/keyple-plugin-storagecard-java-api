@@ -139,7 +139,8 @@ public interface CommandProcessorApi {
    * @see #generalAuthenticate(int, int, int)
    * @since 1.1.0
    */
-  void loadKey(KeyStorageType keyStorageType, int keyNumber, byte[] key) throws Exception;
+  void loadKey(KeyStorageType keyStorageType, int keyNumber, byte[] key)
+      throws Exception; // NOSONAR
 
   /**
    * Performs authentication to a contactless card using a previously loaded key.
@@ -180,5 +181,6 @@ public interface CommandProcessorApi {
    * @see #loadKey(KeyStorageType, int, byte[])
    * @since 1.1.0
    */
-  void generalAuthenticate(int blockAddress, int keyType, int keyNumber) throws Exception;
+  void generalAuthenticate(int blockAddress, int keyType, int keyNumber)
+      throws Exception; // NOSONAR
 }
