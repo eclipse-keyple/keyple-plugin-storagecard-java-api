@@ -172,15 +172,16 @@ public interface CommandProcessorApi {
    *     (e.g., 0x60 or 0x61 for Mifare cards).
    * @param keyNumber The index of the previously loaded key to use for authentication. Must
    *     reference a key that was loaded via {@link #loadKey(KeyStorageType, int, byte[])}.
+   * @return {@code true} if authentication succeeded, {@code false} if authentication failed (e.g.,
+   *     incorrect key).
    * @throws IllegalArgumentException if {@code blockAddress} is out of valid range for the card
    *     type, if {@code keyType} is not supported by the card, or if {@code keyNumber} does not
    *     reference a valid loaded key.
-   * @throws Exception if the authentication fails (incorrect key or access denied), if the
-   *     referenced key was not previously loaded, if the card does not support authentication, or
-   *     if a communication error occurs.
+   * @throws Exception if the referenced key was not previously loaded, if the card does not support
+   *     authentication, or if a communication error occurs.
    * @see #loadKey(KeyStorageType, int, byte[])
    * @since 1.1.0
    */
-  void generalAuthenticate(int blockAddress, int keyType, int keyNumber)
+  boolean generalAuthenticate(int blockAddress, int keyType, int keyNumber)
       throws Exception; // NOSONAR
 }
