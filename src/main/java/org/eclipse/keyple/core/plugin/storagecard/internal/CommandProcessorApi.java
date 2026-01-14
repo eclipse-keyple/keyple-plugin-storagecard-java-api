@@ -126,29 +126,28 @@ public interface CommandProcessorApi {
    * <p>Note that keys stored in memory cannot be read back for security reasons. Once loaded, they
    * can only be used for authentication operations.
    *
-   * @param isVolatileMemory {@code true} to store the key in volatile memory (RAM), {@code false}
-   *     to store in non-volatile memory (EEPROM).
+   * @param keyStorageType The type of memory to store the key in (VOLATILE or NON_VOLATILE).
    * @param keyNumber The key index identifying the storage location. Valid ranges depend on the
    *     reader implementation and memory type.
    * @param key A byte array containing the card-specific key value. Must not be null. The required
    *     length depends on the card type and authentication algorithm.
-   * @throws IllegalArgumentException if {@code key} is null, if the key length is not valid for the
-   *     card type, or if {@code keyNumber} is not in the valid range for the reader and memory
-   *     type.
+   * @throws IllegalArgumentException if {@code keyStorageType} or {@code key} is null, if the key
+   *     length is not valid for the card type, or if {@code keyNumber} is not in the valid range
+   *     for the reader and memory type.
    * @throws Exception if the load operation fails, if the specified memory type is not available on
    *     the reader hardware, or if a communication error occurs.
    * @see #generalAuthenticate(int, int, int)
    * @since 1.1.0
    */
-  void loadKey(boolean isVolatileMemory, int keyNumber, byte[] key) throws Exception;
+  void loadKey(KeyStorageType keyStorageType, int keyNumber, byte[] key) throws Exception;
 
   /**
    * Performs authentication to a contactless card using a previously loaded key.
    *
    * <p>This method authenticates to a specific memory location on the card using a key that was
-   * previously loaded into the reader's memory via the {@link #loadKey(boolean, int, byte[])}
-   * method. Successful authentication is typically required before performing read or write
-   * operations on protected memory areas.
+   * previously loaded into the reader's memory via the {@link #loadKey(KeyStorageType, int,
+   * byte[])} method. Successful authentication is typically required before performing read or
+   * write operations on protected memory areas.
    *
    * <p>The authentication process establishes a secure session between the reader and the card. The
    * block address represents the block number or starting byte number of the card to be
@@ -162,22 +161,23 @@ public interface CommandProcessorApi {
    *   <li>Other contactless cards: card-specific key type values
    * </ul>
    *
-   * <p>The key number parameter references a key previously loaded via {@link #loadKey(boolean,
-   * int, byte[])} and identifies which stored key to use for this authentication operation.
+   * <p>The key number parameter references a key previously loaded via {@link
+   * #loadKey(KeyStorageType, int, byte[])} and identifies which stored key to use for this
+   * authentication operation.
    *
    * @param blockAddress The block number or starting byte number on the card where authentication
    *     is to be performed. Valid range depends on the card type and memory structure.
    * @param keyType The type of key to use for authentication. The valid values are card-specific
    *     (e.g., 0x60 or 0x61 for Mifare cards).
    * @param keyNumber The index of the previously loaded key to use for authentication. Must
-   *     reference a key that was loaded via {@link #loadKey(boolean, int, byte[])}.
+   *     reference a key that was loaded via {@link #loadKey(KeyStorageType, int, byte[])}.
    * @throws IllegalArgumentException if {@code blockAddress} is out of valid range for the card
    *     type, if {@code keyType} is not supported by the card, or if {@code keyNumber} does not
    *     reference a valid loaded key.
    * @throws Exception if the authentication fails (incorrect key or access denied), if the
    *     referenced key was not previously loaded, if the card does not support authentication, or
    *     if a communication error occurs.
-   * @see #loadKey(boolean, int, byte[])
+   * @see #loadKey(KeyStorageType, int, byte[])
    * @since 1.1.0
    */
   void generalAuthenticate(int blockAddress, int keyType, int keyNumber) throws Exception;

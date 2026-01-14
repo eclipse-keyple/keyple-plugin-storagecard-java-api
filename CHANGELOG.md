@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Documentation of recommended status words for ApduInterpreterSpi implementations
 - Exception handling guidelines for CommandProcessorApi implementations
-- Added `loadKey` method to `CommandProcessorApi` interface for loading card-specific authentication keys into reader
-  memory (volatile or non-volatile).
+- Added `KeyStorageType` enum to specify memory type (VOLATILE or NON_VOLATILE).
+- Added `loadKey` method to `CommandProcessorApi` interface using `KeyStorageType` for loading card-specific
+  authentication keys into reader memory.
 - Added `generalAuthenticate` method to `CommandProcessorApi` interface for performing authentication to contactless
   cards using previously loaded keys.
 ### Changed

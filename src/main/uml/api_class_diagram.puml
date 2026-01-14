@@ -1,6 +1,6 @@
 @startuml
 title
-    Keyple - keyple-plugin-storagecard-java-api - 1.1.+ (2025-12-01)
+    Keyple - keyple-plugin-storagecard-java-api - 1.1.+ (2026-01-14)
 end title
 
 ' == THEME ==
@@ -58,6 +58,10 @@ package "org.eclipse.keyple.core.plugin.storagecard" as api #C_GREY1 {
     +interface ApduInterpreterFactory <<red>> {
     }
     package "internal" as internal #C_GREY2 {
+      +enum "<color:blue>KeyStorageType" as KeyStorageType <<green>> {
+          <color:blue>VOLATILE
+          <color:blue>NON_VOLATILE
+      }
       +interface CommandProcessorApi {
           +byte[] transmitIsoApdu(byte[] apdu)
 
@@ -65,7 +69,7 @@ package "org.eclipse.keyple.core.plugin.storagecard" as api #C_GREY1 {
           +byte[] readBlock(int blockAddress, int length)
           +void writeBlock(int blockAddress, byte[] data)
 
-          +<color:blue>void loadKey(boolean isVolatileMemory, byte keyNumber, byte[] key)
+          +<color:blue>void loadKey(KeyStorageType keyStorageType, int keyNumber, byte[] key)
           +<color:blue>void generalAuthenticate(int blockAddress, int keyType, int keyNumber)
       }
       package spi #C_GREY3 {
@@ -84,6 +88,7 @@ package "org.eclipse.keyple.core.plugin.storagecard" as api #C_GREY1 {
 ' Associations
 ApduInterpreterFactorySpi --> ApduInterpreterSpi : create >
 ApduInterpreterSpi --> CommandProcessorApi : use >
+CommandProcessorApi --> KeyStorageType : use >
 
 ' == LAYOUT ==
 
