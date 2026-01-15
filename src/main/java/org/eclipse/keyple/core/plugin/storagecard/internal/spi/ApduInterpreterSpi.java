@@ -46,11 +46,13 @@ import org.eclipse.keyple.core.plugin.storagecard.internal.KeyStorageType;
  *
  * <h3>Error Handling Strategy</h3>
  *
- * <p>This interface uses a <strong>delegation-based validation</strong> approach:
+ * <p>This interface follows a <strong>trust-based validation</strong> approach:
  *
  * <ul>
- *   <li><strong>Validation</strong> is delegated to {@link CommandProcessorApi}, which throws typed
- *       exceptions for invalid parameters, lengths, or security violations.
+ *   <li><strong>Validation</strong> is performed upstream by the card extension that generates the
+ *       APDUs. Since this extension is part of the same ecosystem, its output is trusted.
+ *   <li><strong>{@link CommandProcessorApi}</strong> does not perform parameter validation and
+ *       trusts the incoming data to be correct.
  *   <li><strong>Exceptions propagate</strong> to the caller unless they represent normal protocol
  *       conditions (e.g., authentication failure, unsupported instruction).
  *   <li><strong>Status words</strong> are returned only for protocol-level conditions, not
@@ -72,18 +74,18 @@ import org.eclipse.keyple.core.plugin.storagecard.internal.KeyStorageType;
  *
  * <h3>Exception Propagation</h3>
  *
- * <p>The following error conditions result in exceptions thrown by {@link CommandProcessorApi}:
+ * <p>The following error conditions may result in exceptions:
  *
  * <ul>
- *   <li><strong>Invalid parameters</strong> (P1/P2 out of range, invalid key number)
- *   <li><strong>Invalid data length</strong> (wrong key length, APDU length mismatch)
- *   <li><strong>Invalid data format</strong> (wrong version byte, invalid key type)
  *   <li><strong>Hardware/communication errors</strong> (card not responding, transmission failure)
+ *       - thrown by {@link CommandProcessorApi}
+ *   <li><strong>Protocol-level errors</strong> that cannot be represented by status words - may be
+ *       thrown by implementations
  * </ul>
  *
- * <p>Callers should catch and handle these exceptions appropriately for their context (e.g.,
- * converting to HTTP status codes, logging for diagnostics, or wrapping in domain-specific
- * exceptions).
+ * <p><strong>Note:</strong> Parameter validation (P1/P2 values, data lengths, key numbers, etc.) is
+ * the responsibility of the card extension generating the APDUs, not this interface or its
+ * implementations.
  *
  * <h3>PC/SC Compliance</h3>
  *
