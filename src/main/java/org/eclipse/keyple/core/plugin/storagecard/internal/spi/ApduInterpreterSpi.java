@@ -12,20 +12,96 @@
 package org.eclipse.keyple.core.plugin.storagecard.internal.spi;
 
 import org.eclipse.keyple.core.plugin.storagecard.internal.CommandProcessorApi;
+import org.eclipse.keyple.core.plugin.storagecard.internal.KeyStorageType;
 
 /**
- * Interface defining an APDU interpreter for processing commands sent to a card.
+ * Interface defining an APDU interpreter for processing commands sent to storage cards.
  *
  * <p>Its implementation is provided by {@link ApduInterpreterFactorySpi}.
  *
  * <p>Upon calling {@code processApdu}, implementations determine how to invoke the appropriate
- * methods of {@link CommandProcessorApi} based on the card type.
+ * methods of {@link CommandProcessorApi} based on the APDU class byte (CLA) and instruction (INS).
  *
- * <p>For standard ISO 7816-4 APDUs, the interpreter directly calls {@link
- * CommandProcessorApi#transmitIsoApdu(byte[])}. For storage-type cards, the interpreter translates
- * the APDU into specific read/write operations using {@link CommandProcessorApi#getUID()}, {@link
- * CommandProcessorApi#readBlock(int, int)} and {@link CommandProcessorApi#writeBlock(int, byte[])}.
+ * <h3>APDU Processing Strategy</h3>
  *
+ * <p>The interpreter follows a two-pathway processing model:
+ *
+ * <ul>
+ *   <li><strong>Standard ISO 7816-4 APDUs</strong> (CLA != 0xFF): Directly transmitted via {@link
+ *       CommandProcessorApi#transmitIsoApdu(byte[])} without interpretation.
+ *   <li><strong>Storage Card APDUs</strong> (CLA = 0xFF): Interpreted and translated into
+ *       CommandProcessorApi method calls based on the instruction byte:
+ *       <ul>
+ *         <li><code>INS 0xCA</code> → {@link CommandProcessorApi#getUID()} - Get card UID
+ *         <li><code>INS 0xB0</code> → {@link CommandProcessorApi#readBlock(int, int)} - Read binary
+ *             data
+ *         <li><code>INS 0xD6</code> → {@link CommandProcessorApi#writeBlock(int, byte[])} - Write
+ *             binary data
+ *         <li><code>INS 0x82</code> → {@link CommandProcessorApi#loadKey(KeyStorageType, int,
+ *             byte[])} - Load authentication key
+ *         <li><code>INS 0x86</code> → {@link CommandProcessorApi#generalAuthenticate(int, int,
+ *             int)} - Authenticate with key
+ *       </ul>
+ * </ul>
+ *
+ * <h3>Error Handling Strategy</h3>
+ *
+ * <p>This interface follows a <strong>trust-based validation</strong> approach:
+ *
+ * <ul>
+ *   <li><strong>Validation</strong> is performed upstream by the card extension that generates the
+ *       APDUs. Since this extension is part of the same ecosystem, its output is trusted.
+ *   <li><strong>{@link CommandProcessorApi}</strong> does not perform parameter validation and
+ *       trusts the incoming data to be correct.
+ *   <li><strong>Exceptions propagate</strong> to the caller unless they represent normal protocol
+ *       conditions (e.g., authentication failure, unsupported instruction).
+ *   <li><strong>Status words</strong> are returned only for protocol-level conditions, not
+ *       validation errors.
+ * </ul>
+ *
+ * <h3>Status Words Usage</h3>
+ *
+ * <p>Implementations return ISO 7816-4 / PC/SC compliant status words for the following conditions:
+ *
+ * <table border="1">
+ *   <caption>Status Words returned by implementations</caption>
+ *   <tr><th>Status Word</th><th>Code</th><th>Usage</th></tr>
+ *   <tr><td>Success</td><td>0x9000</td><td>Successful execution</td></tr>
+ *   <tr><td>Security status not satisfied</td><td>0x6982</td><td>Authentication failed (PC/SC
+ *   compliant)</td></tr>
+ *   <tr><td>INS not supported</td><td>0x6D00</td><td>Unknown instruction code</td></tr>
+ * </table>
+ *
+ * <h3>Exception Propagation</h3>
+ *
+ * <p>The following error conditions may result in exceptions:
+ *
+ * <ul>
+ *   <li><strong>Hardware/communication errors</strong> (card not responding, transmission failure)
+ *       - thrown by {@link CommandProcessorApi}
+ *   <li><strong>Protocol-level errors</strong> that cannot be represented by status words - may be
+ *       thrown by implementations
+ * </ul>
+ *
+ * <p><strong>Note:</strong> Parameter validation (P1/P2 values, data lengths, key numbers, etc.) is
+ * the responsibility of the card extension generating the APDUs, not this interface or its
+ * implementations.
+ *
+ * <h3>PC/SC Compliance</h3>
+ *
+ * <p>Storage card commands (CLA=0xFF) follow the PC/SC v2.01.09 specification:
+ *
+ * <ul>
+ *   <li>LOAD KEY: <code>FF 82 [P1] [P2] 06 [6-byte key]</code>
+ *   <li>GENERAL AUTHENTICATE: <code>FF 86 00 00 05 [version][addr-MSB][addr-LSB][key-type][key-num]
+ *       </code>
+ *   <li>GET DATA (UID): <code>FF CA 00 00 [Le]</code>
+ *   <li>READ BINARY: <code>FF B0 [P1] [P2] [Le]</code>
+ *   <li>UPDATE BINARY: <code>FF D6 [P1] [P2] [Lc] [data]</code>
+ * </ul>
+ *
+ * @see CommandProcessorApi
+ * @see ApduInterpreterFactorySpi
  * @since 1.0.0
  */
 public interface ApduInterpreterSpi {
